@@ -6,3 +6,4 @@
 # apps/frontend/config/app.yml
 all:
   active_days: 30
+  max_jobs_on_homepage: 10
