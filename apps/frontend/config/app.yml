@@ -3,3 +3,6 @@
 
 # default values
 #all:
+# apps/frontend/config/app.yml
+all:
+  active_days: 30
