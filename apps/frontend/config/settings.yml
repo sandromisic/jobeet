@@ -26,10 +26,11 @@ all:
   .settings:
     # Form security secret (CSRF protection)
     csrf_secret:            7f6145fff171732db58288c8a91d51408f141841
-
+    charset: utf-8
+    i18n: true
     # Output escaping settings
     escaping_strategy:      true
     escaping_method:        ESC_SPECIALCHARS
-
+    standard_helpers: [Partial, Cache, I18N]
     # Enable the database manager
     use_database:           true

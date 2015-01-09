@@ -1,22 +1,37 @@
 # apps/frontend/config/routing.yml
 job:
-  class:   sfDoctrineRouteCollection
+  class: sfDoctrineRouteCollection
   options:
     model:          JobeetJob
     column:         token
-    object_actions: { publish: PUT, extend: PUT }
+    object_actions: { publish: put, extend: put }
+    prefix_path:    /:sf_culture/job
   requirements:
     token: \w+
+    sf_culture: (?:fr|en)
+
+change_language:
+  url:   /change_language
+  param: { module: language, action: changeLanguage }
 
 affiliate:
-  class:   sfDoctrineRouteCollection
+  class: sfDoctrineRouteCollection
   options:
-    model: JobeetAffiliate
-    actions: [new, create]
+    model:          JobeetAffiliate
+    actions:        [new, create]
     object_actions: { wait: get }
+    prefix_path:    /:sf_culture/affiliate
+  requirements:
+    sf_culture: (?:fr|en)
+
+job_search:
+  url:   /:sf_culture/search
+  param: { module: job, action: search }
+  requirements:
+    sf_culture: (?:fr|en)
 
 job_show_user:
-  url:     /job/:company_slug/:location_slug/:id/:position_slug
+  url:     /:sf_culture/job/:company_slug/:location_slug/:id/:position_slug
   class:   sfDoctrineRoute
   options:
     model: JobeetJob
@@ -26,6 +41,7 @@ job_show_user:
   requirements:
     id: \d+
     sf_method: [GET]
+    sf_culture: (?:fr|en)
 
 api_jobs:
   url:     /api/:token/jobs.:sf_format
@@ -34,15 +50,23 @@ api_jobs:
   options: { model: JobeetJob, type: list, method: getForToken }
   requirements:
     sf_format: (?:xml|json|yaml)
+    sf_culture: (?:fr|en)
 
 category:
-  url:     /category/.:sf_format
+  url:     /:sf_culture/category/.:sf_format
   class:   sfDoctrineRoute
   param:   { module: category, action: show, sf_format: html }
-  options: { model: JobeetCategory, type: object }
+  options: { model: JobeetCategory, type: object, method: doSelectForSlug }
   requirements:
     sf_format: (?:html|atom)
+    sf_culture: (?:fr|en)
 # default rules
+localized_homepage:
+  url:   /:sf_culture/
+  param: { module: job, action: index }
+  requirements:
+    sf_culture: (?:fr|en)
+
 homepage:
   url:   /
   param: { module: job, action: index }
